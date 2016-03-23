@@ -11,15 +11,13 @@ using System.Web.Http.Description;
 using SumITComp.API.Models;
 using SumITComp.Repository.Entities;
 
+
 namespace SumITComp.API.Controllers
 {
     public class ProductsController : ApiController
     {
         private IRepository _repo;
         private ModelFactory _modelFactory;
-
-        //private SumITCompAPIContext db = new SumITCompAPIContext();
-
 
         public ProductsController(IRepository repo)
         {
@@ -31,12 +29,11 @@ namespace SumITComp.API.Controllers
         // GET: api/Products
         public IEnumerable<ProductModel> GetProducts()
         {
-
             var results = _repo.GetAllProducts()
-                    .OrderBy(f => f.ProductId)
-                   .Take(25)
-                   .ToList()
-                   .Select(f => _modelFactory.Create(f));
+                .OrderBy(f => f.ProductId)
+                .Take(25)
+                .ToList()
+                .Select(f => _modelFactory.Create(f));
 
 
             return results;
@@ -56,94 +53,106 @@ namespace SumITComp.API.Controllers
                     Content = new StringContent(string.Format("No product with ID = {0}", id)),
                     ReasonPhrase = "Product ID Not Found"
                 };
-                
+
                 throw new HttpResponseException(resp);
             }
-
-            //return new { Id = result.ProductId, Title = result.Title, Description = result.Description, Price = result.Price };
-
 
             return result;
         }
 
-        //// PUT: api/Products/5
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult PutProduct(int id, Product product)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
 
-        //    if (id != product.ProductId)
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpPut]
+        [HttpPatch]
+        public HttpResponseMessage PutProduct(int id, [FromBody] ProductEntryModel productEntryentry)
+        {
 
-        //    db.Entry(product).State = EntityState.Modified;
+            try
+            {
+                var product = _repo.GetProduct(id);
+                if (product == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest);
 
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!ProductExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+                //var updatedProduct = new Product() {Title = model.Title, Description = model.Description, Price=model.Price,ProductId=id};
 
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
 
-        //// POST: api/Products
-        //[ResponseType(typeof(Product))]
-        //public IHttpActionResult PostProduct(Product product)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+                if (product.Title != productEntryentry.Title)
+                {
+                    product.Title = productEntryentry.Title;
 
-        //    db.Products.Add(product);
-        //    db.SaveChanges();
+                }
+                if (product.Description != productEntryentry.Description)
+                {
+                    product.Description = productEntryentry.Description;
 
-        //    return CreatedAtRoute("DefaultApi", new { id = product.ProductId }, product);
-        //}
+                }
+                if (product.Price != productEntryentry.Price)
+                {
+                    product.Price = productEntryentry.Price;
 
-        //// DELETE: api/Products/5
-        //[ResponseType(typeof(Product))]
-        //public IHttpActionResult DeleteProduct(int id)
-        //{
-        //    Product product = db.Products.Find(id);
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
+                }
+            
+               bool updateProduct=  _repo.UpdateProduct(product);
+                   
+                    
 
-        //    db.Products.Remove(product);
-        //    db.SaveChanges();
+                if (updateProduct)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
 
-        //    return Ok(product);
-        //}
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
 
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
+            return Request.CreateResponse(HttpStatusCode.BadRequest);
+        }
+    
 
-        //private bool ProductExists(int id)
-        //{
-        //    return db.Products.Count(e => e.ProductId == id) > 0;
-        //}
+    // POST: api/Products
+        public HttpResponseMessage PostProduct([FromBody]ProductEntryModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+
+            _repo.AddProduct(new Product() { Title = model.Title,Description = model.Description,Price = model.Price});
+            _repo.SaveAll();
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+
+        // DELETE: api/Products/5
+        public HttpResponseMessage DeleteProduct(int id)
+        {
+
+            try
+            {
+                if (_repo.GetProduct(id) == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
+
+                if (_repo.DeleteProductEntry(id) && _repo.SaveAll())
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+
+
+        }
+        
+
     }
 }

@@ -267,6 +267,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IRepository.cs" />
     <Compile Include="Models\ModelFactory.cs" />
+    <Compile Include="Models\ProductEntryModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\Repository.cs" />
     <Compile Include="Models\SumITCompAPIContext.cs" />
@@ -348,10 +349,6 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SumITComp.DTO\SumITComp.DTO.csproj">
-      <Project>{079b61b8-2d7c-4de2-98cf-4d723bca2f2a}</Project>
-      <Name>SumITComp.DTO</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SumITComp.Repository\SumITComp.Repository.csproj">
       <Project>{8e4a1110-25c0-4436-8d09-bece6ff78ff0}</Project>
       <Name>SumITComp.Repository</Name>

@@ -6,9 +6,10 @@ using System.Web;
 using SumITComp.Repository;
 using SumITComp.Repository.Entities;
 
+
 namespace SumITComp.API.Models
 {
-    public class SumITCompContextInitializer : DropCreateDatabaseAlways<SumITCompAPIContext>
+    public class SumITCompContextInitializer : CreateDatabaseIfNotExists<SumITCompAPIContext>
     {
         protected override void Seed(SumITCompAPIContext context)
         {
@@ -78,42 +79,42 @@ namespace SumITComp.API.Models
 
 
 
-            var order = new Order() { Customer = "John Doe", OrderDate = new DateTime(2014, 7, 10) };
-            var details = new List<OrderDetail>()
-            {
-                new OrderDetail() {Product = products[0], Quantity = 1, Order = order},
-                new OrderDetail() {Product = products[2], Quantity = 2, Order = order},
-                new OrderDetail() {Product = products[1], Quantity = 3, Order = order}
+            //var order = new Order() { Customer = "John Doe", OrderDate = new DateTime(2014, 7, 10) };
+            //var details = new List<OrderDetail>()
+            //{
+            //    new OrderDetail() {Product = products[0], Quantity = 1, Order = order},
+            //    new OrderDetail() {Product = products[2], Quantity = 2, Order = order},
+            //    new OrderDetail() {Product = products[1], Quantity = 3, Order = order}
 
-            };
-            context.Orders.Add(order);
-            details.ForEach(o => context.OrderDetails.Add(o));
-            context.SaveChanges();
+            //};
+            //context.Orders.Add(order);
+            //details.ForEach(o => context.OrderDetails.Add(o));
+            //context.SaveChanges();
 
-            order = new Order() { Customer = "Joe Smith", OrderDate = new DateTime(2014, 9, 18) };
-            details = new List<OrderDetail>()
-            {
-                new OrderDetail() {Product = products[1], Quantity = 1, Order =  order},
-                new OrderDetail() {Product = products[1], Quantity = 1, Order =  order}, 
-                new OrderDetail() {Product = products[3], Quantity = 12, Order =  order},
-                new OrderDetail() {Product = products[4], Quantity = 3, Order =  order}
-            };
-            context.Orders.Add(order);
-            details.ForEach(o => context.OrderDetails.Add(o));
-            context.SaveChanges();
+            //order = new Order() { Customer = "Joe Smith", OrderDate = new DateTime(2014, 9, 18) };
+            //details = new List<OrderDetail>()
+            //{
+            //    new OrderDetail() {Product = products[1], Quantity = 1, Order =  order},
+            //    new OrderDetail() {Product = products[1], Quantity = 1, Order =  order}, 
+            //    new OrderDetail() {Product = products[3], Quantity = 12, Order =  order},
+            //    new OrderDetail() {Product = products[4], Quantity = 3, Order =  order}
+            //};
+            //context.Orders.Add(order);
+            //details.ForEach(o => context.OrderDetails.Add(o));
+            //context.SaveChanges();
 
-            order = new Order() { Customer = "Ward Bell", OrderDate = new DateTime(2014, 12, 25) };
-            details = new List<OrderDetail>()
-            {
-                new OrderDetail() {Product = products[2], Quantity = 1, Order =  order},
-                new OrderDetail() {Product = products[4], Quantity = 1, Order =  order},
-                new OrderDetail() {Product = products[3], Quantity = 1, Order =  order},
-                new OrderDetail() {Product = products[1], Quantity = 3, Order =  order}
-            };
+            //order = new Order() { Customer = "Ward Bell", OrderDate = new DateTime(2014, 12, 25) };
+            //details = new List<OrderDetail>()
+            //{
+            //    new OrderDetail() {Product = products[2], Quantity = 1, Order =  order},
+            //    new OrderDetail() {Product = products[4], Quantity = 1, Order =  order},
+            //    new OrderDetail() {Product = products[3], Quantity = 1, Order =  order},
+            //    new OrderDetail() {Product = products[1], Quantity = 3, Order =  order}
+            //};
 
-            context.Orders.Add(order);
-            details.ForEach(od => context.OrderDetails.Add(od));
-            context.SaveChanges();
+            //context.Orders.Add(order);
+            //details.ForEach(od => context.OrderDetails.Add(od));
+            //context.SaveChanges();
             
 
             base.Seed(context);

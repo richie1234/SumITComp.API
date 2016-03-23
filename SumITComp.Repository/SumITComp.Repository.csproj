@@ -50,12 +50,6 @@
     <Compile Include="SumITCompContextInitializer.cs" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\SumITComp.DTO\SumITComp.DTO.csproj">
-      <Project>{079b61b8-2d7c-4de2-98cf-4d723bca2f2a}</Project>
-      <Name>SumITComp.DTO</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
