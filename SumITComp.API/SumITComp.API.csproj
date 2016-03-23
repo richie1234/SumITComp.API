@@ -266,6 +266,8 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IRepository.cs" />
+    <Compile Include="Models\ModelFactory.cs" />
+    <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\Repository.cs" />
     <Compile Include="Models\SumITCompAPIContext.cs" />
     <Compile Include="Models\SumITCompContextInitializer.cs" />

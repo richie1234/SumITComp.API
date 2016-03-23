@@ -9,5 +9,6 @@ namespace SumITComp.API.Models
         IQueryable<Order> GetAllOrders();
         IQueryable<Order> GetAllOrdersWithDetails();
         Order GetOrder(int id);
+        Product GetProduct(int id);
     }
 }

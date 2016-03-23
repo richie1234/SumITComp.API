@@ -9,7 +9,7 @@ namespace SumITComp.Repository.Entities
 {
 
     [Table("Product")]
-    public class Product
+    public class Product : Exception
     {
 
         public int ProductId { get; set; }

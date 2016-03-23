@@ -16,6 +16,7 @@ namespace SumITComp.API.Controllers
     public class ProductsController : ApiController
     {
         private IRepository _repo;
+        private ModelFactory _modelFactory;
 
         //private SumITCompAPIContext db = new SumITCompAPIContext();
 
@@ -23,28 +24,47 @@ namespace SumITComp.API.Controllers
         public ProductsController(IRepository repo)
         {
             _repo = repo;
+            _modelFactory = new ModelFactory();
         }
-
 
 
         // GET: api/Products
-        public IQueryable<Product> GetProducts()
+        public IEnumerable<ProductModel> GetProducts()
         {
-            return _repo.GetAllProducts();
+
+            var results = _repo.GetAllProducts()
+                    .OrderBy(f => f.ProductId)
+                   .Take(25)
+                   .ToList()
+                   .Select(f => _modelFactory.Create(f));
+
+
+            return results;
         }
 
-        //// GET: api/Products/5
-        //[ResponseType(typeof(Product))]
-        //public IHttpActionResult GetProduct(int id)
-        //{
-        //    Product product = db.Products.Find(id);
-        //    if (product == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    return Ok(product);
-        //}
+        // GET: api/Products/5
+        public ProductModel GetProduct(int id)
+        {
+            //var result = _repo.GetProduct(id);
+
+            var result = _modelFactory.Create(_repo.GetProduct(id));
+            if (result == null)
+            {
+                var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(string.Format("No product with ID = {0}", id)),
+                    ReasonPhrase = "Product ID Not Found"
+                };
+                
+                throw new HttpResponseException(resp);
+            }
+
+            //return new { Id = result.ProductId, Title = result.Title, Description = result.Description, Price = result.Price };
+
+
+            return result;
+        }
 
         //// PUT: api/Products/5
         //[ResponseType(typeof(void))]
