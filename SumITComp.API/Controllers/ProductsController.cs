@@ -15,105 +15,115 @@ namespace SumITComp.API.Controllers
 {
     public class ProductsController : ApiController
     {
-        private SumITCompAPIContext db = new SumITCompAPIContext();
+        private IRepository _repo;
+
+        //private SumITCompAPIContext db = new SumITCompAPIContext();
+
+
+        public ProductsController(IRepository repo)
+        {
+            _repo = repo;
+        }
+
+
 
         // GET: api/Products
         public IQueryable<Product> GetProducts()
         {
-            return db.Products;
+            return _repo.GetAllProducts();
         }
 
-        // GET: api/Products/5
-        [ResponseType(typeof(Product))]
-        public IHttpActionResult GetProduct(int id)
-        {
-            Product product = db.Products.Find(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+        //// GET: api/Products/5
+        //[ResponseType(typeof(Product))]
+        //public IHttpActionResult GetProduct(int id)
+        //{
+        //    Product product = db.Products.Find(id);
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return Ok(product);
-        }
+        //    return Ok(product);
+        //}
 
-        // PUT: api/Products/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutProduct(int id, Product product)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// PUT: api/Products/5
+        //[ResponseType(typeof(void))]
+        //public IHttpActionResult PutProduct(int id, Product product)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            if (id != product.ProductId)
-            {
-                return BadRequest();
-            }
+        //    if (id != product.ProductId)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            db.Entry(product).State = EntityState.Modified;
+        //    db.Entry(product).State = EntityState.Modified;
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!ProductExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+        //    return StatusCode(HttpStatusCode.NoContent);
+        //}
 
-        // POST: api/Products
-        [ResponseType(typeof(Product))]
-        public IHttpActionResult PostProduct(Product product)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// POST: api/Products
+        //[ResponseType(typeof(Product))]
+        //public IHttpActionResult PostProduct(Product product)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            db.Products.Add(product);
-            db.SaveChanges();
+        //    db.Products.Add(product);
+        //    db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = product.ProductId }, product);
-        }
+        //    return CreatedAtRoute("DefaultApi", new { id = product.ProductId }, product);
+        //}
 
-        // DELETE: api/Products/5
-        [ResponseType(typeof(Product))]
-        public IHttpActionResult DeleteProduct(int id)
-        {
-            Product product = db.Products.Find(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: api/Products/5
+        //[ResponseType(typeof(Product))]
+        //public IHttpActionResult DeleteProduct(int id)
+        //{
+        //    Product product = db.Products.Find(id);
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            db.Products.Remove(product);
-            db.SaveChanges();
+        //    db.Products.Remove(product);
+        //    db.SaveChanges();
 
-            return Ok(product);
-        }
+        //    return Ok(product);
+        //}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
-        private bool ProductExists(int id)
-        {
-            return db.Products.Count(e => e.ProductId == id) > 0;
-        }
+        //private bool ProductExists(int id)
+        //{
+        //    return db.Products.Count(e => e.ProductId == id) > 0;
+        //}
     }
 }
