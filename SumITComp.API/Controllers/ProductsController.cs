@@ -19,6 +19,8 @@ namespace SumITComp.API.Controllers
         private IRepository _repo;
         private ModelFactory _modelFactory;
 
+        private SumITCompAPIContext db = new SumITCompAPIContext();
+
         public ProductsController(IRepository repo)
         {
             _repo = repo;

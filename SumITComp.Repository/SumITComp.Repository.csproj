@@ -45,9 +45,6 @@
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\OrderDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository.cs" />
-    <Compile Include="SumITCompAPIContext.cs" />
-    <Compile Include="SumITCompContextInitializer.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using SumITComp.API.Models;
 using SumITComp.Repository.Entities;
 
-
-namespace SumITComp.API.Models
+namespace SumITComp.API.Tests
 {
-    public class SumITCompContextInitializer : CreateDatabaseIfNotExists<SumITCompAPIContext>
+    class RepositoryMockTestManager : IRepository
     {
-        protected override void Seed(SumITCompAPIContext context)
+        List<Product> products;
+        public IQueryable<Product> GetAllProducts()
         {
-            var products = new List<Product>
+            products = new List<Product>
             {
 
                 new Product() {
@@ -28,7 +32,7 @@ namespace SumITComp.API.Models
                     Title = "ASUS F555LA-AB31 15.6-inch Full-HD Laptop (Core i3, 4GB RAM, 500GB HDD) with Windows 10",
                     Price = 30,
                     Description = "ASUS F555LA-AB31 15.6 FHD (19201080), matte, Laptop (Black), Intel Core i3-5010U 2.1GHz Broad well , 4GB DDR3L (1600MHz) , 500GB 5400RPM, DL DVDRW/CD-RW, 802.11AC, Bluetooth 4.0, Windows 10 (64bit)"
-                
+
                 },
 
                 new Product()
@@ -49,7 +53,7 @@ namespace SumITComp.API.Models
                     Title = "2016 NEW Edition Acer Aspire One 11 Cloudbook 11.6-inch Laptop, Intel Dual-Core Processor, 2GB RAM, 16GB SSD",
                     Price = 70,
                     Description = "tay productive and connected to what matters wherever you are with the Acer Aspire Cloudbook. This lightweight 11-inch laptop comes with 100GB of free OneDrive storage for two years, and with Windows 10 you get easy ways to snap apps in place, create new desktops, and work and play across all your devices."},
-                                  
+
                 new Product() {
 
                     Title = "2016 New Edition Lenovo 15.6-inch Premium Laptop, AMD Dual-Core Processor, 4GB Memory, 500GB Hard Drive, HD LED...",
@@ -70,51 +74,42 @@ namespace SumITComp.API.Models
 
             };
 
-            products.ForEach(b => context.Products.Add(b));
-            context.SaveChanges();
-
-
-
-            //var order = new Order() { Customer = "John Doe", OrderDate = new DateTime(2014, 7, 10) };
-            //var details = new List<OrderDetail>()
-            //{
-            //    new OrderDetail() {Product = products[0], Quantity = 1, Order = order},
-            //    new OrderDetail() {Product = products[2], Quantity = 2, Order = order},
-            //    new OrderDetail() {Product = products[1], Quantity = 3, Order = order}
-
-            //};
-            //context.Orders.Add(order);
-            //details.ForEach(o => context.OrderDetails.Add(o));
-            //context.SaveChanges();
-
-            //order = new Order() { Customer = "Joe Smith", OrderDate = new DateTime(2014, 9, 18) };
-            //details = new List<OrderDetail>()
-            //{
-            //    new OrderDetail() {Product = products[1], Quantity = 1, Order =  order},
-            //    new OrderDetail() {Product = products[1], Quantity = 1, Order =  order}, 
-            //    new OrderDetail() {Product = products[3], Quantity = 12, Order =  order},
-            //    new OrderDetail() {Product = products[4], Quantity = 3, Order =  order}
-            //};
-            //context.Orders.Add(order);
-            //details.ForEach(o => context.OrderDetails.Add(o));
-            //context.SaveChanges();
-
-            //order = new Order() { Customer = "Ward Bell", OrderDate = new DateTime(2014, 12, 25) };
-            //details = new List<OrderDetail>()
-            //{
-            //    new OrderDetail() {Product = products[2], Quantity = 1, Order =  order},
-            //    new OrderDetail() {Product = products[4], Quantity = 1, Order =  order},
-            //    new OrderDetail() {Product = products[3], Quantity = 1, Order =  order},
-            //    new OrderDetail() {Product = products[1], Quantity = 3, Order =  order}
-            //};
-
-            //context.Orders.Add(order);
-            //details.ForEach(od => context.OrderDetails.Add(od));
-            //context.SaveChanges();
+            return products.AsQueryable();
             
+        }
 
-            base.Seed(context);
+        public Product GetProduct(int id)
+        {
+            return new Product()
+            {
+                Title = "Acer Chromebook, 11.6-inch HD, CB3-131-C3SZ (Intel Celeron, 2GB, 16GB, White)",
+                Price = 100,
+                Description =
+                    "Acer CB3-131-C3SZ Chromebook comes with these high level specs: Intel Celeron N2840 Dual-Core Processor 2.16GHz with Intel Burst Technology up to 2.58GHz, Google Chrome Operating System, 11.6 HD ComfyViewTM Widescreen IPS LED-backlit Display, Intel HD Graphics, 2048MB DDR3L SDRAM Memory, 16GB Internal Storage, Secure Digital (SD) card reader, 802.11AC Wi-Fi featuring MIMO technology (Dual-Band 2.4GHz and 5GHz), Bluetooth 4.0, Built-In HD Webcam, 1 - USB 3.0 Port, 1-USB 2.0 Port, 1 - HDMI Port, 3-Cell Li-Polymer Battery (3220 mAh), Up to 9-hours Battery Life, 2.43 lbs. | 1.1 kg (system unit only) (NX.G85AA.001)"
+            };
 
+
+
+        }
+
+        public bool AddProduct(Product product)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SaveAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteProductEntry(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateProduct(Product product)
+        {
+            throw new NotImplementedException();
         }
     }
 }

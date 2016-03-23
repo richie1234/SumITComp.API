@@ -34,7 +34,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -94,6 +96,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Controllers\ValuesControllerTest.cs" />
+    <Compile Include="RepositoryMockTestManager.cs" />
+    <Compile Include="TestProductsController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -105,6 +109,10 @@
     <ProjectReference Include="..\SumITComp.API\SumITComp.API.csproj">
       <Project>{6E0926DC-E959-484B-8E1B-E1BD5BA6FDE6}</Project>
       <Name>SumITComp.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SumITComp.Repository\SumITComp.Repository.csproj">
+      <Project>{8e4a1110-25c0-4436-8d09-bece6ff78ff0}</Project>
+      <Name>SumITComp.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
