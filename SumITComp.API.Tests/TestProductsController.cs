@@ -17,11 +17,19 @@ namespace SumITComp.API.Tests
     [TestClass]
     public class TestProductsController
     {
+
+        [TestInitialize()]
+        public void Initialize()
+        {
+            IRepository testProducts = new RepositoryMockTestManager();
+        }
+
         [TestMethod]
         public void GetAllProducts_ShouldReturnAllProducts()
         {
-           // var testProducts = GetTestProducts();
+            // var testProducts = GetTestProducts();
             IRepository testProducts = new RepositoryMockTestManager();
+
             var controller = new ProductsController(testProducts);
 
             var result = controller.GetProducts() as List<Product>;

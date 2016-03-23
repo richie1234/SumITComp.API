@@ -8,7 +8,7 @@ using SumITComp.Repository.Entities;
 
 namespace SumITComp.API.Tests
 {
-    class RepositoryMockTestManager : IRepository
+    public class RepositoryMockTestManager : IRepository
     {
         List<Product> products;
         public IQueryable<Product> GetAllProducts()
