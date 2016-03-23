@@ -244,6 +244,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Repository.cs" />
     <Compile Include="Models\SumITCompAPIContext.cs" />
     <Compile Include="Models\SumITCompContextInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

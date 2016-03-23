@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using SumITComp.Repository;
+using SumITComp.Repository.Entities;
 
 namespace SumITComp.API.Models
 {
@@ -19,6 +21,8 @@ namespace SumITComp.API.Models
         {
         }
 
-        public DbSet<SumITComp.Repository.Entities.Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
     }
 }
