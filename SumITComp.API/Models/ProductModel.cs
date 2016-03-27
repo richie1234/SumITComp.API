@@ -2,6 +2,7 @@
 {
     public class ProductModel
     {
+        public string Url { get; set; }
         public decimal Id { get; set; }
         public string Title { get; set; }
 

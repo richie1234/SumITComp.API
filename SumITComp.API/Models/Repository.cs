@@ -23,10 +23,14 @@ namespace SumITComp.API.Models
             return _ctx.Products.Where(f => f.ProductId == id).FirstOrDefault(); ;
         }
 
-        public bool AddProduct(Product product)
+        public bool InsertProduct(ProductEntry entry)
         {
             try
             {
+                Product product = new Product();
+                product.Title = entry.Title;
+                product.Description = entry.Description;
+                product.Price = entry.Price;
                 _ctx.Products.Add(product);
                 return true;
             }

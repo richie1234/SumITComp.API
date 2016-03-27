@@ -25,6 +25,12 @@ namespace SumITComp.API
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "Product",
+                routeTemplate: "api/products/{productid}",
+                defaults: new { controller = "products", foodid = RouteParameter.Optional }
+            );
         }
     }
 }

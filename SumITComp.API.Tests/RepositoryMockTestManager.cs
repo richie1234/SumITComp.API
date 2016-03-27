@@ -92,6 +92,11 @@ namespace SumITComp.API.Tests
 
         }
 
+        public bool InsertProduct(ProductEntry product)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool AddProduct(Product product)
         {
             throw new NotImplementedException();

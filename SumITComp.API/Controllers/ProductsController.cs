@@ -14,28 +14,24 @@ using SumITComp.Repository.Entities;
 
 namespace SumITComp.API.Controllers
 {
-    public class ProductsController : ApiController
+    public class ProductsController : BaseApiController
     {
-        private IRepository _repo;
-        private ModelFactory _modelFactory;
 
         private SumITCompAPIContext db = new SumITCompAPIContext();
 
-        public ProductsController(IRepository repo)
+        public ProductsController(IRepository repo) :base(repo)
         {
-            _repo = repo;
-            _modelFactory = new ModelFactory();
         }
 
 
         // GET: api/Products
         public IEnumerable<ProductModel> GetProducts()
         {
-            var results = _repo.GetAllProducts()
+            var results = TheRepository.GetAllProducts()
                 .OrderBy(f => f.ProductId)
                 .Take(25)
                 .ToList()
-                .Select(f => _modelFactory.Create(f));
+                .Select(f => TheModelFactory.Create(f));
 
 
             return results;
@@ -47,7 +43,7 @@ namespace SumITComp.API.Controllers
         {
             //var result = _repo.GetProduct(id);
 
-            var result = _modelFactory.Create(_repo.GetProduct(id));
+            var result = TheModelFactory.Create(TheRepository.GetProduct(id));
             if (result == null)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
@@ -70,7 +66,7 @@ namespace SumITComp.API.Controllers
 
             try
             {
-                var product = _repo.GetProduct(id);
+                var product = TheRepository.GetProduct(id);
                 if (product == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest);
 
@@ -93,7 +89,7 @@ namespace SumITComp.API.Controllers
 
                 }
             
-               bool updateProduct=  _repo.UpdateProduct(product);
+               bool updateProduct= TheRepository.UpdateProduct(product);
                    
                     
 
@@ -113,17 +109,40 @@ namespace SumITComp.API.Controllers
     
 
     // POST: api/Products
-        public HttpResponseMessage PostProduct([FromBody]ProductEntryModel model)
+        public object PostProduct([FromBody]ProductEntryModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                var entity = TheModelFactory.Parse(model);
+                if (entity == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not create Product Entry in the body");
+                }
+                // var product = TheRepository.GetProduct(productId);
+                //if (product == null) Request.CreateResponse(HttpStatusCode.NotFound);
+                //var diary = TheRepository.GetDiary(_identityService.CurrentUser, diaryId);
+                TheRepository.InsertProduct(entity);
+                TheRepository.SaveAll();
+                return Request.CreateResponse(HttpStatusCode.Created,TheModelFactory.Create(entity));
+            }
+            catch (Exception ex)
+            {
+                
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
 
-            _repo.AddProduct(new Product() { Title = model.Title,Description = model.Description,Price = model.Price});
-            _repo.SaveAll();
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+
+            //    if (!ModelState.IsValid)
+            //    {
+            //        return Request.CreateResponse(HttpStatusCode.BadRequest);
+            //    }
+
+            //    TheRepository.AddProduct(new Product() { Title = model.Title,Description = model.Description,Price = model.Price});
+            //    TheRepository.SaveAll();
+
+            //    return Request.CreateResponse(HttpStatusCode.Created,TheRepository.Create());
+
         }
 
 
@@ -133,12 +152,12 @@ namespace SumITComp.API.Controllers
 
             try
             {
-                if (_repo.GetProduct(id) == null)
+                if (TheRepository.GetProduct(id) == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound);
                 }
 
-                if (_repo.DeleteProductEntry(id) && _repo.SaveAll())
+                if (TheRepository.DeleteProductEntry(id) && TheRepository.SaveAll())
                 {
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }

@@ -10,7 +10,7 @@ namespace SumITComp.API.Models
         //IQueryable<Order> GetAllOrdersWithDetails();
         //Order GetOrder(int id);
         Product GetProduct(int id);
-        bool AddProduct(Product product);
+        bool InsertProduct(ProductEntry product);
         bool SaveAll();
         bool DeleteProductEntry(int id);
         bool UpdateProduct(Product product);
