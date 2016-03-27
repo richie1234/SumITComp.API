@@ -109,7 +109,7 @@ namespace SumITComp.API.Controllers
     
 
     // POST: api/Products
-        public object PostProduct([FromBody]ProductEntryModel model)
+        public HttpResponseMessage PostProduct([FromBody]ProductEntryModel model)
         {
             try
             {
@@ -122,8 +122,14 @@ namespace SumITComp.API.Controllers
                 //if (product == null) Request.CreateResponse(HttpStatusCode.NotFound);
                 //var diary = TheRepository.GetDiary(_identityService.CurrentUser, diaryId);
                 TheRepository.InsertProduct(entity);
-                TheRepository.SaveAll();
-                return Request.CreateResponse(HttpStatusCode.Created,TheModelFactory.Create(entity));
+                if (TheRepository.SaveAll())
+                {
+                    return Request.CreateResponse(HttpStatusCode.Created, TheModelFactory.Create(entity));
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,"Could not save to the database");
+                }
             }
             catch (Exception ex)
             {
@@ -131,17 +137,6 @@ namespace SumITComp.API.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
 
-
-
-            //    if (!ModelState.IsValid)
-            //    {
-            //        return Request.CreateResponse(HttpStatusCode.BadRequest);
-            //    }
-
-            //    TheRepository.AddProduct(new Product() { Title = model.Title,Description = model.Description,Price = model.Price});
-            //    TheRepository.SaveAll();
-
-            //    return Request.CreateResponse(HttpStatusCode.Created,TheRepository.Create());
 
         }
 
