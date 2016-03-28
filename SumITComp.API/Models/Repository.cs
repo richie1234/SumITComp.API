@@ -28,9 +28,22 @@ namespace SumITComp.API.Models
             try
             {
                 Product product = new Product();
-                product.Title = entry.Title;
-                product.Description = entry.Description;
-                product.Price = entry.Price;
+                if (product.Title != null)
+                {
+                    product.Title = entry.Title;
+
+                }
+                if (product.Description != null)
+                {
+                    product.Description = entry.Description;
+
+                }
+                if (product.Price != null)
+                {
+                    product.Price = (decimal) entry.Price;
+
+                }
+                
                 _ctx.Products.Add(product);
                 return true;
             }

@@ -61,50 +61,59 @@ namespace SumITComp.API.Controllers
 
         [HttpPut]
         [HttpPatch]
-        public HttpResponseMessage PutProduct(int id, [FromBody] ProductEntryModel productEntryentry)
+        public HttpResponseMessage PutProduct(int id, [FromBody]ProductEntryModel model)
         {
+
 
             try
             {
-                var product = TheRepository.GetProduct(id);
-                if (product == null)
-                    return Request.CreateResponse(HttpStatusCode.BadRequest);
-
-                //var updatedProduct = new Product() {Title = model.Title, Description = model.Description, Price=model.Price,ProductId=id};
-
-
-                if (product.Title != productEntryentry.Title)
+                var entity = TheRepository.GetProduct(id); ;
+                if (entity == null)
                 {
-                    product.Title = productEntryentry.Title;
-
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Could not find the Product Id");
                 }
-                if (product.Description != productEntryentry.Description)
+
+                var passedValue = TheModelFactory.Parse(model);
+                if (passedValue == null)
                 {
-                    product.Description = productEntryentry.Description;
-
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not read diary entry in body");
                 }
-                if (product.Price != productEntryentry.Price)
+
+                if (entity.Title != passedValue.Title || entity.Description != passedValue.Description ||
+                    entity.Price != passedValue.Price)
                 {
-                    product.Price = productEntryentry.Price;
+                    if (passedValue.Title != null)
+                    {
+                        entity.Title = passedValue.Title;
+                    }
+                    if (passedValue.Description != null)
+                    {
+                        entity.Description = passedValue.Description;
+                    }
+                    if (passedValue.Price != null)
+                    {
+                        entity.Price = (decimal) passedValue.Price;
+                    }
 
-                }
-            
-               bool updateProduct= TheRepository.UpdateProduct(product);
-                   
                     
+                    if (TheRepository.SaveAll())
+                    {
+                        return Request.CreateResponse(HttpStatusCode.OK, TheModelFactory.Create(entity));
+                    }
 
-                if (updateProduct)
-                {
-                    return Request.CreateResponse(HttpStatusCode.OK);
+
                 }
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+
 
             }
             catch (Exception ex)
             {
+
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
 
-            return Request.CreateResponse(HttpStatusCode.BadRequest);
+
         }
     
 
@@ -118,10 +127,7 @@ namespace SumITComp.API.Controllers
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not create Product Entry in the body");
                 }
-                // var product = TheRepository.GetProduct(productId);
-                //if (product == null) Request.CreateResponse(HttpStatusCode.NotFound);
-                //var diary = TheRepository.GetDiary(_identityService.CurrentUser, diaryId);
-                TheRepository.InsertProduct(entity);
+
                 if (TheRepository.SaveAll())
                 {
                     return Request.CreateResponse(HttpStatusCode.Created, TheModelFactory.Create(entity));
@@ -130,6 +136,7 @@ namespace SumITComp.API.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,"Could not save to the database");
                 }
+
             }
             catch (Exception ex)
             {

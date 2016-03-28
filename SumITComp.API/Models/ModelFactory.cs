@@ -59,12 +59,20 @@ namespace SumITComp.API.Models
             try
             {
                 var entry = new ProductEntry();
-                if (model.Title != default(string))
+                if (model.Title != null)
                 {
                     entry.Title = model.Title;
                 }
-                entry.Description = model.Description;
-                entry.Price = model.Price;
+                if (model.Description != null)
+                {
+                    entry.Description = model.Description;
+                }
+                if (model.Price != null)
+                {
+                    entry.Price = (decimal) model.Price;
+                }
+                
+                
                 return entry;
             }
             catch (Exception)
