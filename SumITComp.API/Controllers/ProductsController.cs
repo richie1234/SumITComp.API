@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Routing;
 using SumITComp.API.Models;
 using SumITComp.Repository.Entities;
 
@@ -23,18 +24,36 @@ namespace SumITComp.API.Controllers
         {
         }
 
+        const int PAGE_SIZE = 5;
 
         // GET: api/Products
-        public IEnumerable<ProductModel> GetProducts()
+        public object GetProducts(int page = 0)
         {
-            var results = TheRepository.GetAllProducts()
-                .OrderBy(f => f.ProductId)
-                .Take(25)
+            var baseQuery = TheRepository.GetAllProducts()
+                .OrderBy(f => f.ProductId);
+
+            var totalCount = baseQuery.Count();
+            var totalPages = Math.Ceiling((double) totalCount/PAGE_SIZE);
+
+            var helper = new UrlHelper(Request) ;
+            var prevUrl = page > 0 ? helper.Link("product", new {page = page-1}) : "";
+            var nextUrl = page < totalPages -1 ? helper.Link("product", new { page = page + 1 }) : "";
+
+
+
+            var results = baseQuery.Skip(PAGE_SIZE * page)
+                .Take(PAGE_SIZE)
                 .ToList()
                 .Select(f => TheModelFactory.Create(f));
 
-
-            return results;
+            return new
+            {
+                TotalCount =totalCount,
+                TotalPages = totalPages,
+                PrevPageUrl = prevUrl,
+                NextPageUrl = nextUrl,
+                Results = results
+            };
         }
 
 

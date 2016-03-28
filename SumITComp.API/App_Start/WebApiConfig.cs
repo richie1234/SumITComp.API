@@ -31,7 +31,7 @@ namespace SumITComp.API
             config.Routes.MapHttpRoute(
                 name: "Product",
                 routeTemplate: "api/products/{productid}",
-                defaults: new { controller = "products", foodid = RouteParameter.Optional }
+                defaults: new { controller = "products", productid = RouteParameter.Optional }
             );
 
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
