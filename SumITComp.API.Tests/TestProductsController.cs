@@ -17,19 +17,21 @@ namespace SumITComp.API.Tests
     [TestClass]
     public class TestProductsController
     {
+        IRepository testProducts;
 
         [TestInitialize()]
         public void Initialize()
         {
-            IRepository testProducts = new RepositoryMockTestManager();
+            testProducts = new RepositoryMockTestManager();
         }
 
         [TestMethod]
         public void GetAllProducts_ShouldReturnAllProducts()
         {
             // var testProducts = GetTestProducts();
-            IRepository testProducts = new RepositoryMockTestManager();
+           // IRepository testProducts = new RepositoryMockTestManager();
 
+            
             var controller = new ProductsController(testProducts);
 
             var result = controller.GetProducts() as List<Product>;
@@ -38,52 +40,40 @@ namespace SumITComp.API.Tests
             Assert.AreEqual(result.Count, result.Count.ToString());
         }
 
-        //[TestMethod]
-        //public async Task GetAllProductsAsync_ShouldReturnAllProducts()
-        //{
-        //    var testProducts = GetTestProducts();
-        //    var controller = new ProductsController(testProducts);
+        [TestMethod]
+        public void Product_ShouldReturnEnteredProduct()
+        {
+            var controller = new ProductsController(testProducts);
 
-        //    var result = await controller.GetAllProductsAsync() as List<Product>;
-        //    Assert.AreEqual(testProducts.Count, result.Count);
-        //}
 
-        //[TestMethod]
-        //public void GetProduct_ShouldReturnCorrectProduct()
-        //{
-        //    var testProducts = GetTestProducts();
-        //    var controller = new ProductsController(testProducts);
+        }
 
-        //    var result = controller.GetProduct(4) as OkNegotiatedContentResult<Product>;
-        //    Assert.IsNotNull(result);
-        //    Assert.AreEqual(testProducts[3].Name, result.Content.Name);
-        //}
+        [TestMethod]
+        public void GetProduct_ShouldReturnCorrectProduct()
+        {
+            var controller = new ProductsController(testProducts);
 
-        //[TestMethod]
-        //public async Task GetProductAsync_ShouldReturnCorrectProduct()
-        //{
-        //    var testProducts = GetTestProducts();
-        //    var controller = new ProductsController(testProducts);
 
-        //    var result = await controller.GetProductAsync(4) as OkNegotiatedContentResult<Product>;
-        //    Assert.IsNotNull(result);
-        //    Assert.AreEqual(testProducts[3].Name, result.Content.Name);
-        //}
+        }
 
-        //[TestMethod]
-        //public void GetProduct_ShouldNotFindProduct()
-        //{
-        //    var controller = new ProductsController(GetTestProducts());
+        [TestMethod]
+        public void PostProduc_ShouldAddANewProduct()
+        {
+            var controller = new ProductsController(testProducts);
 
-        //    var result = controller.GetProduct(999);
-        //    Assert.IsInstanceOfType(result, typeof(NotFoundResult));
-        //}
+        }
 
-        //private IQueryable<Product> GetTestProducts()
-        //{
-        //    IRepository repository = new RepositoryMockTestManager();
+        [TestMethod]
+        public void PtchProduct_ShouldUpdateTheExistingProduct()
+        {
+            var controller = new ProductsController(testProducts);
+        }
 
-        //    return repository.GetAllProducts();
-        //}
+        private IQueryable<Product> GetTestProducts()
+        {
+            IRepository repository = new RepositoryMockTestManager();
+
+            return repository.GetAllProducts();
+        }
     }
 }

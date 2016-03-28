@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace SumITComp.Repository.Entities
+namespace SumITComp.API.Models
 {
-   public class ProductEntry
+    public class ProductEntry
     {
 
-   
+
         public string Title { get; set; }
 
         public string Description { get; set; }

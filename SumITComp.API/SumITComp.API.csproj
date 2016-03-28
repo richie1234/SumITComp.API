@@ -259,8 +259,6 @@
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
-    <Compile Include="Controllers\ProductsWithoutIOCController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -269,6 +267,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IRepository.cs" />
     <Compile Include="Models\ModelFactory.cs" />
+    <Compile Include="Models\ProductEntry.cs" />
     <Compile Include="Models\ProductEntryModel.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\Repository.cs" />
