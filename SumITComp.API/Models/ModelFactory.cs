@@ -44,7 +44,6 @@ namespace SumITComp.API.Models
             {
 
                 //Url = _urlHelper.Link("Product", new { productid = entry.ProductId }),
-                Id = entry.ProductId,
                 Title = entry.Title,
                 Description = entry.Description,
                 Price = entry.Price

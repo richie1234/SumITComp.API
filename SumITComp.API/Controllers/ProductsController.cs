@@ -17,7 +17,7 @@ namespace SumITComp.API.Controllers
     public class ProductsController : BaseApiController
     {
 
-        private SumITCompAPIContext db = new SumITCompAPIContext();
+       
 
         public ProductsController(IRepository repo) :base(repo)
         {
@@ -113,7 +113,47 @@ namespace SumITComp.API.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
 
+            //try
+            //{
+            //    var product = TheRepository.GetProduct(id);
+            //    if (product == null)
+            //        return Request.CreateResponse(HttpStatusCode.BadRequest);
 
+            //    //var updatedProduct = new Product() {Title = model.Title, Description = model.Description, Price=model.Price,ProductId=id};
+
+
+            //    if (product.Title != productEntryentry.Title)
+            //    {
+            //        product.Title = productEntryentry.Title;
+
+            //    }
+            //    if (product.Description != productEntryentry.Description)
+            //    {
+            //        product.Description = productEntryentry.Description;
+
+            //    }
+            //    if (product.Price != productEntryentry.Price)
+            //    {
+            //        product.Price = productEntryentry.Price;
+
+            //    }
+
+            //   bool updateProduct= TheRepository.UpdateProduct(product);
+
+
+
+            //    if (updateProduct)
+            //    {
+            //        return Request.CreateResponse(HttpStatusCode.OK);
+            //    }
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            //}
+
+            //return Request.CreateResponse(HttpStatusCode.BadRequest);
         }
     
 
@@ -127,7 +167,10 @@ namespace SumITComp.API.Controllers
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not create Product Entry in the body");
                 }
-
+                // var product = TheRepository.GetProduct(productId);
+                //if (product == null) Request.CreateResponse(HttpStatusCode.NotFound);
+                //var diary = TheRepository.GetDiary(_identityService.CurrentUser, diaryId);
+                TheRepository.InsertProduct(entity);
                 if (TheRepository.SaveAll())
                 {
                     return Request.CreateResponse(HttpStatusCode.Created, TheModelFactory.Create(entity));
@@ -136,7 +179,6 @@ namespace SumITComp.API.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest,"Could not save to the database");
                 }
-
             }
             catch (Exception ex)
             {

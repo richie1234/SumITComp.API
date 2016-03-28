@@ -28,17 +28,17 @@ namespace SumITComp.API.Models
             try
             {
                 Product product = new Product();
-                if (product.Title != null)
+                if (entry.Title != null)
                 {
                     product.Title = entry.Title;
 
                 }
-                if (product.Description != null)
+                if (entry.Description != null)
                 {
                     product.Description = entry.Description;
 
                 }
-                if (product.Price != null)
+                if (entry.Price != null)
                 {
                     product.Price = (decimal) entry.Price;
 

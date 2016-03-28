@@ -9,8 +9,7 @@ namespace SumITComp.Repository.Entities
    public class ProductEntry
     {
 
-        public int ProductId { get; set; }
-
+   
         public string Title { get; set; }
 
         public string Description { get; set; }
